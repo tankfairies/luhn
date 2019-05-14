@@ -1,2 +1,2 @@
-# luhn
-Templated Luhn geberator and validator
+# Luhn
+Templated Luhn generator and validator
