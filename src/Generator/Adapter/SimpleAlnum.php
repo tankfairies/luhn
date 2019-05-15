@@ -71,7 +71,7 @@ class SimpleAlnum extends AbstractGenerator
 
         while ($length < $this->charLength) {
             // the choice is either 1 or 2, whilst N and L alternate
-            $segmentLength = rand() % 2 + 1;
+            $segmentLength = mt_rand() % 2 + 1;
             while ($segmentLength > 0 && $length < $this->charLength) {
                 $this->pattern[] = $this->charCode[$charIndex];
                 $segmentLength--;
@@ -97,10 +97,10 @@ class SimpleAlnum extends AbstractGenerator
         foreach ($this->pattern as $symbolType) {
             switch ($symbolType) {
                 case 'N':
-                    $token[] = rand(0, 9);
+                    $token[] = mt_rand(0, 9);
                     break;
                 case 'L':
-                    $token[] = $this->validLetters[rand(0, 21)];
+                    $token[] = $this->validLetters[mt_rand(0, 21)];
                     break;
             }
         }
