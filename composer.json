@@ -3,7 +3,8 @@
   "description": "Luhn Template Generator",
   "keywords": ["luhn"],
   "license": "MIT",
-  "type": "project",
+  "type": "library",
+  "version": "1.0.0",
   "require": {
     "php": "^7.3"
   },
