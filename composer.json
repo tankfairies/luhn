@@ -4,7 +4,6 @@
   "keywords": ["luhn"],
   "license": "MIT",
   "type": "library",
-  "version": "1.0.1",
   "require": {
     "php": "^7.3"
   },
