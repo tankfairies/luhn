@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (c) 2019 Tanklfairies
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ *
+ * @see https://github.com/tankfairies/luhn
+ */
 
 namespace Luhn\Generator;
 
@@ -19,6 +27,8 @@ abstract class AbstractGenerator implements GeneratorInterface
     protected $charLength = 5;
 
     /**
+     * Sets the number of characters to be generated.
+     *
      * @param int $length
      */
     public function setLength(int $length): void
@@ -27,6 +37,8 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
+     * Returns the generated token.
+     *
      * @return string
      */
     public function getToken(): string

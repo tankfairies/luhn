@@ -1,9 +1,18 @@
 <?php
+/**
+ * Copyright (c) 2019 Tanklfairies
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ *
+ * @see https://github.com/tankfairies/luhn
+ */
 
 namespace Luhn\Libs;
 
 /**
  * Class AlnumBaseConverter
+ *
  * @package Luhn
  */
 class AlnumBaseConverter
@@ -25,6 +34,8 @@ class AlnumBaseConverter
     private $base = 10;
 
     /**
+     * Sets the base for conversion.
+     *
      * @param int $base
      * @return AlnumBaseConverter
      */
@@ -35,6 +46,8 @@ class AlnumBaseConverter
     }
 
     /**
+     * Sets an array on numbers.
+     *
      * @param array $numberArray
      * @return AlnumBaseConverter
      */
@@ -45,6 +58,8 @@ class AlnumBaseConverter
     }
 
     /**
+     * Sets a string of numbers.
+     *
      * @param string $numberString
      * @return AlnumBaseConverter
      */
@@ -55,6 +70,8 @@ class AlnumBaseConverter
     }
 
     /**
+     * Converts a string to a number array.
+     *
      * @return array
      */
     public function stringToNumberArray(): array
@@ -68,6 +85,8 @@ class AlnumBaseConverter
     }
 
     /**
+     * Converts an array to a string.
+     *
      * @return string
      */
     public function numberArrayToString(): string

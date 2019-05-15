@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (c) 2019 Tanklfairies
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ *
+ * @see https://github.com/tankfairies/luhn
+ */
 
 namespace Luhn;
 
@@ -162,7 +170,7 @@ class Luhn
      * @param $numberArray
      * @return Luhn
      */
-    private function setNumberArray($numberArray): Luhn
+    private function setNumberArray(array $numberArray): Luhn
     {
         $this->numberArray = $numberArray;
         return $this;
