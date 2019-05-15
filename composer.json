@@ -1,9 +1,21 @@
 {
   "name": "tankfairies/luhn",
   "description": "Luhn Template Generator",
-  "keywords": ["luhn"],
-  "license": "MIT",
   "type": "library",
+  "keywords": ["luhn", "template", "checksum"],
+  "homepage": "https://tankfairies.com/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jon",
+      "email": "jon@tankfairies.com",
+      "role": "lead"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/tankfairies/luhn/issues"
+  },
+  "prefer-stable": true,
   "require": {
     "php": "^7.3"
   },
@@ -19,5 +31,12 @@
   },
   "require-dev": {
     "codeception/codeception": "^3.0"
+  },
+  "config": {
+    "platform": {
+      "php": "7.3.0"
+    },
+    "optimize-autoloader": true,
+    "sort-packages": true
   }
 }
