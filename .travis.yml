@@ -1,1 +1,14 @@
 language: php
+php:
+  - '7.2'
+  - '7.3'
+  - hhmv
+  - nightly
+sudo: false
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source
+script:
+  - php vendor/bin/codecept run
+branches:
+    only: master
