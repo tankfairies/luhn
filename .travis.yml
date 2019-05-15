@@ -1,8 +1,6 @@
 language: php
 php:
   - '7.3'
-  - hhmv
-  - nightly
 sudo: false
 before_script:
   - travis_retry composer self-update
