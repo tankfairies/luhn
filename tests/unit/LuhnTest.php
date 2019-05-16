@@ -129,6 +129,28 @@ class LuhnTest extends Unit
         );
     }
 
+    public function testGenerateWithoutTemplate()
+    {
+        $this->tester->expectException(
+            new LuhnException('Template not set'),
+            function () {
+                $this->luhn->setPostfixType(Luhn::NUMERIC);
+                $this->luhn->generate();
+            }
+        );
+    }
+
+    public function testGenerateWithoutPostfixType()
+    {
+        $this->tester->expectException(
+            new LuhnException('Generator not set'),
+            function () {
+                $this->luhn->setTemplate('USR-####-####');
+                $this->luhn->generate();
+            }
+        );
+    }
+
     public function testGenerateNumeric()
     {
         $this->luhn->setTemplate('USR-####-####');
@@ -158,6 +180,21 @@ class LuhnTest extends Unit
         $this->assertEquals('USR', $parts[0]);
         $this->assertEquals(4, mb_strlen($parts[1]));
         $this->assertEquals(5, mb_strlen($parts[2]));
+    }
+
+    public function testGenerateAlphaNumeric2()
+    {
+        $this->luhn->setTemplate('USR-####-###');
+        $this->luhn->setPostfixType(Luhn::ALPHA_NUMERIC);
+
+        $token = $this->luhn->generate();
+        Debug::debug($token);
+
+        $parts = explode('-', $token);
+
+        $this->assertEquals('USR', $parts[0]);
+        $this->assertEquals(4, mb_strlen($parts[1]));
+        $this->assertEquals(4, mb_strlen($parts[2]));
     }
 
     public function testValidateValidNumericLuhn()
