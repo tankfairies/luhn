@@ -5,7 +5,8 @@
 [![Build Status](https://travis-ci.org/tankfairies/luhn.svg?branch=master)](https://travis-ci.org/tankfairies/luhn)
 
 # Luhn
-Templated Luhn generator and validator
+Templated Luhn generator and validator.
+
 This is an implementation of the Luhn Algorithm for PHP. The Luhn Algorithm is
 used to validate things like credit cards and national identification numbers.
 More information on the algorithm can be found at [Wikipedia](http://en.wikipedia.org/wiki/Luhn_algorithm).
