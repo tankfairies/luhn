@@ -54,3 +54,7 @@ use Tankfairies\Luhn\Luhn;
 $luhn = new Luhn();
 $luhn->validate('USR-f36x-x79n9');
 ```
+
+## Copyright and license
+
+The tankfairies/luhn library is Copyright (c) 2019 Tankfairies (https://tankfairies.com) and licensed for use under the MIT License (MIT).
