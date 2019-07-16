@@ -3,7 +3,7 @@
 namespace Tests\Generator\Adapter;
 
 use \Codeception\Test\Unit;
-use Luhn\Generator\Adapter\SimpleAlnum;
+use Tankfairies\Luhn\Generator\Adapter\SimpleAlnum;
 
 class SimpleAlnumTest extends Unit
 {

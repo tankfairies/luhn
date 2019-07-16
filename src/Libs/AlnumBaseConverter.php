@@ -8,7 +8,7 @@
  * @see https://github.com/tankfairies/luhn
  */
 
-namespace Luhn\Libs;
+namespace Tankfairies\Luhn\Libs;
 
 /**
  * Class AlnumBaseConverter

@@ -3,9 +3,9 @@
 namespace Tests;
 
 use \Codeception\Test\Unit;
-use Luhn\Generator\GeneratorInterface;
-use Luhn\Libs\LuhnException;
-use Luhn\Luhn;
+use Tankfairies\Luhn\Generator\GeneratorInterface;
+use Tankfairies\Luhn\Libs\LuhnException;
+use Tankfairies\Luhn\Luhn;
 use ReflectionProperty;
 use \Codeception\Util\Debug;
 
@@ -42,11 +42,11 @@ class LuhnTest extends Unit
     {
         $this->luhn->setTemplate('AA-####');
 
-        $reflection = new ReflectionProperty('Luhn\Luhn', 'stringLength');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'stringLength');
         $reflection->setAccessible(true);
         $this->assertEquals(4, $reflection->getValue($this->luhn));
 
-        $reflection = new ReflectionProperty('Luhn\Luhn', 'format');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'format');
         $reflection->setAccessible(true);
         $this->assertEquals(['A', 'A', '-', '#', '#', '#', '#' ], $reflection->getValue($this->luhn));
     }
@@ -55,11 +55,11 @@ class LuhnTest extends Unit
     {
         $this->luhn->setTemplate('LL-####');
 
-        $reflection = new ReflectionProperty('Luhn\Luhn', 'stringLength');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'stringLength');
         $reflection->setAccessible(true);
         $this->assertEquals(4, $reflection->getValue($this->luhn));
 
-        $reflection = new ReflectionProperty('Luhn\Luhn', 'format');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'format');
         $reflection->setAccessible(true);
         $this->assertEquals(['L', 'L', '-', '#', '#', '#', '#'], $reflection->getValue($this->luhn));
     }
@@ -68,11 +68,11 @@ class LuhnTest extends Unit
     {
         $this->luhn->setTemplate('LLL-###');
 
-        $reflection = new ReflectionProperty('Luhn\Luhn', 'stringLength');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'stringLength');
         $reflection->setAccessible(true);
         $this->assertEquals(3, $reflection->getValue($this->luhn));
 
-        $reflection = new ReflectionProperty('Luhn\Luhn', 'format');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'format');
         $reflection->setAccessible(true);
         $this->assertEquals(['L', 'L', 'L', '-', '#', '#', '#', ], $reflection->getValue($this->luhn));
     }
@@ -93,7 +93,7 @@ class LuhnTest extends Unit
 
         $this->luhn->setPostfixType(Luhn::NUMERIC);
 
-        $reflection = new ReflectionProperty('Luhn\Luhn', 'generator');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'generator');
         $reflection->setAccessible(true);
         $this->assertInstanceOf(GeneratorInterface::class, $reflection->getValue($this->luhn));
     }
@@ -104,7 +104,7 @@ class LuhnTest extends Unit
 
         $this->luhn->setPostfixType(Luhn::ALPHA_NUMERIC);
 
-        $reflection = new ReflectionProperty('Luhn\Luhn', 'generator');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'generator');
         $reflection->setAccessible(true);
         $this->assertInstanceOf(GeneratorInterface::class, $reflection->getValue($this->luhn));
     }

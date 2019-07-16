@@ -24,7 +24,7 @@ class AbstractGeneratorTest extends Unit
 
     public function testSetLength()
     {
-        $mock = $this->getMockForAbstractClass('Luhn\Generator\AbstractGenerator');
+        $mock = $this->getMockForAbstractClass('Tankfairies\Luhn\Generator\AbstractGenerator');
         $mock->setLength(5);
 
         $reflection = new ReflectionProperty($mock, 'charLength');
@@ -34,7 +34,7 @@ class AbstractGeneratorTest extends Unit
 
     public function testGetToken()
     {
-        $mock = $this->getMockForAbstractClass('Luhn\Generator\AbstractGenerator');
+        $mock = $this->getMockForAbstractClass('Tankfairies\Luhn\Generator\AbstractGenerator');
 
         $reflection = new ReflectionProperty($mock, 'token');
         $reflection->setAccessible(true);

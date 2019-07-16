@@ -25,7 +25,7 @@ Instantiate a new instance of the library:
  
 Generate numeric Luhn e.g. *USR-6560-73597* : -
 ```php
-use Tankfairies/Luhn;
+use Tankfairies\Luhn\Luhn;
 
 $luhn = new Luhn();
 $luhn->setTemplate('USR-####-####');
@@ -37,7 +37,7 @@ $token = $luhn->generate();
 Generate alpha numeric Luhn e.g. *USR-f36x-x79n9* : -
 
 ```php
-use Tankfairies/Luhn;
+use Tankfairies\Luhn\Luhn;
 
 $luhn = new Luhn();
 $luhn->setTemplate('USR-####-####');
@@ -49,7 +49,7 @@ $token = $luhn->generate();
 Validate a Luhn (returns true or false): -
 
 ```php
-use Tankfairies/Luhn;
+use Tankfairies\Luhn\Luhn;
 
 $luhn = new Luhn();
 $luhn->validate('USR-f36x-x79n9');

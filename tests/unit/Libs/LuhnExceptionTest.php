@@ -3,7 +3,7 @@
 namespace Tests\Libs;
 
 use \Codeception\Test\Unit;
-use Luhn\Libs\LuhnException;
+use Tankfairies\Luhn\Libs\LuhnException;
 
 class LuhnExceptionTest extends Unit
 {

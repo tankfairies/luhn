@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Luhn\\": "src/"
+      "Tankfairies\\Luhn\\": "src/"
     }
   },
   "autoload-dev": {

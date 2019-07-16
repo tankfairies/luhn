@@ -8,13 +8,13 @@
  * @see https://github.com/tankfairies/luhn
  */
 
-namespace Luhn;
+namespace Tankfairies\Luhn;
 
-use Luhn\Generator\GeneratorInterface;
-use Luhn\Libs\AlnumBaseConverter;
-use Luhn\Libs\LuhnException;
-use Luhn\Generator\Adapter\SimpleAlnum;
-use Luhn\Generator\Adapter\SimpleNum;
+use Tankfairies\Luhn\Generator\GeneratorInterface;
+use Tankfairies\Luhn\Libs\AlnumBaseConverter;
+use Tankfairies\Luhn\Libs\LuhnException;
+use Tankfairies\Luhn\Generator\Adapter\SimpleAlnum;
+use Tankfairies\Luhn\Generator\Adapter\SimpleNum;
 
 /**
  * Class Luhn

@@ -3,7 +3,7 @@
 namespace Tests\Libs;
 
 use \Codeception\Test\Unit;
-use Luhn\Libs\AlnumBaseConverter;
+use Tankfairies\Luhn\Libs\AlnumBaseConverter;
 use ReflectionProperty;
 
 class AlnumBaseConverterTest extends Unit
@@ -27,7 +27,7 @@ class AlnumBaseConverterTest extends Unit
 
     public function testDefaultBaseValue()
     {
-        $reflection = new ReflectionProperty('Luhn\Libs\AlnumBaseConverter', 'base');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Libs\AlnumBaseConverter', 'base');
         $reflection->setAccessible(true);
         $this->assertEquals(10, $reflection->getValue($this->alnumBaseConverter));
     }
@@ -36,7 +36,7 @@ class AlnumBaseConverterTest extends Unit
     {
         $this->alnumBaseConverter->setBase(16);
 
-        $reflection = new ReflectionProperty('Luhn\Libs\AlnumBaseConverter', 'base');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Libs\AlnumBaseConverter', 'base');
         $reflection->setAccessible(true);
         $this->assertEquals(16, $reflection->getValue($this->alnumBaseConverter));
     }
@@ -45,7 +45,7 @@ class AlnumBaseConverterTest extends Unit
     {
         $this->alnumBaseConverter->setNumberArray(['1', '2', '3']);
 
-        $reflection = new ReflectionProperty('Luhn\Libs\AlnumBaseConverter', 'numberArray');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Libs\AlnumBaseConverter', 'numberArray');
         $reflection->setAccessible(true);
         $this->assertEquals(['1', '2', '3'], $reflection->getValue($this->alnumBaseConverter));
     }
@@ -54,7 +54,7 @@ class AlnumBaseConverterTest extends Unit
     {
         $this->alnumBaseConverter->setNumberString(654);
 
-        $reflection = new ReflectionProperty('Luhn\Libs\AlnumBaseConverter', 'numberString');
+        $reflection = new ReflectionProperty('Tankfairies\Luhn\Libs\AlnumBaseConverter', 'numberString');
         $reflection->setAccessible(true);
         $this->assertEquals(654, $reflection->getValue($this->alnumBaseConverter));
     }

@@ -8,7 +8,7 @@
  * @see https://github.com/tankfairies/luhn
  */
 
-namespace Luhn\Generator;
+namespace Tankfairies\Luhn\Generator;
 
 /**
  * Class AbstractGenerator

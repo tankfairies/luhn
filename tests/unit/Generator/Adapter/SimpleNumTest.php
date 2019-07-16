@@ -3,7 +3,7 @@
 namespace Tests\Generator\Adapter;
 
 use \Codeception\Test\Unit;
-use Luhn\Generator\Adapter\SimpleNum;
+use Tankfairies\Luhn\Generator\Adapter\SimpleNum;
 
 class SimpleNumTest extends Unit
 {

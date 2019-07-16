@@ -8,9 +8,9 @@
  * @see https://github.com/tankfairies/luhn
  */
 
-namespace Luhn\Generator\Adapter;
+namespace Tankfairies\Luhn\Generator\Adapter;
 
-use Luhn\Generator\AbstractGenerator;
+use Tankfairies\Luhn\Generator\AbstractGenerator;
 
 /**
  * Class SimpleNum
