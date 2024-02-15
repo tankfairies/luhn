@@ -21,17 +21,12 @@ class AlnumBaseConverter
     /**
      * @var string
      */
-    private $numberString = "";
-
-    /**
-     * @var array
-     */
-    private $numberArray = [];
+    private string $numberString = "";
 
     /**
      * @var int
      */
-    private $base = 10;
+    private int $base = 10;
 
     /**
      * Sets the base for conversion.
@@ -42,18 +37,6 @@ class AlnumBaseConverter
     public function setBase(int $base): AlnumBaseConverter
     {
         $this->base = $base;
-        return $this;
-    }
-
-    /**
-     * Sets an array on numbers.
-     *
-     * @param array $numberArray
-     * @return AlnumBaseConverter
-     */
-    public function setNumberArray(array $numberArray): AlnumBaseConverter
-    {
-        $this->numberArray = $numberArray;
         return $this;
     }
 
@@ -76,25 +59,11 @@ class AlnumBaseConverter
      */
     public function stringToNumberArray(): array
     {
-        $this->numberArray = [];
+        $numberArray = [];
         for ($i = 0; $i < mb_strlen($this->numberString); $i++) {
-            $this->numberArray[] = base_convert($this->numberString[$i], $this->base, 10);
+            $numberArray[] = base_convert($this->numberString[$i], $this->base, 10);
         }
 
-        return $this->numberArray;
-    }
-
-    /**
-     * Converts an array to a string.
-     *
-     * @return string
-     */
-    public function numberArrayToString(): string
-    {
-        $this->numberString = '';
-        foreach ($this->numberArray as $value) {
-            $this->numberString .= base_convert($value, 10, $this->base);
-        }
-        return $this->numberString;
+        return $numberArray;
     }
 }

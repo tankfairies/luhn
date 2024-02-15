@@ -1,43 +1,50 @@
 <?php
 
-namespace Tests\StringGenerator;
+namespace Tests\unit\Generator;
 
-use \Codeception\Test\Unit;
-use Codeception\Util\Debug;
-use Mockery;
+use Codeception\Test\Unit;
 use ReflectionProperty;
+use Tankfairies\Luhn\Generator\AbstractGenerator;
+use UnitTester;
+use ReflectionException;
 
 class AbstractGeneratorTest extends Unit
 {
     /**
-     * @var \UnitTester
+     * @var UnitTester
      */
-    protected $tester;
-    
-    protected function _before()
-    {
-    }
+    protected UnitTester $tester;
 
-    protected function _after()
-    {
-    }
-
+    /**
+     * @throws ReflectionException
+     */
     public function testSetLength()
     {
-        $mock = $this->getMockForAbstractClass('Tankfairies\Luhn\Generator\AbstractGenerator');
+        $mock = new class extends AbstractGenerator {
+            public function generate(): void
+            {
+                // ...
+            }
+        };
+
         $mock->setLength(5);
 
         $reflection = new ReflectionProperty($mock, 'charLength');
-        $reflection->setAccessible(true);
-        $this->assertEquals(5, $reflection->getValue($mock));
+        $this->assertEquals(4, $reflection->getValue($mock));
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testGetToken()
     {
-        $mock = $this->getMockForAbstractClass('Tankfairies\Luhn\Generator\AbstractGenerator');
-
+        $mock = new class extends AbstractGenerator {
+            public function generate(): void
+            {
+                // ...
+            }
+        };
         $reflection = new ReflectionProperty($mock, 'token');
-        $reflection->setAccessible(true);
         $reflection->setValue($mock, 'USR-123');
 
         $response = $mock->getToken();

@@ -13,8 +13,6 @@ namespace Tankfairies\Luhn;
 use Tankfairies\Luhn\Generator\GeneratorInterface;
 use Tankfairies\Luhn\Libs\AlnumBaseConverter;
 use Tankfairies\Luhn\Libs\LuhnException;
-use Tankfairies\Luhn\Generator\Adapter\SimpleAlnum;
-use Tankfairies\Luhn\Generator\Adapter\SimpleNum;
 
 /**
  * Class Luhn
@@ -25,47 +23,49 @@ use Tankfairies\Luhn\Generator\Adapter\SimpleNum;
  */
 class Luhn
 {
-    public const ALPHA_NUMERIC = 0;
-    public const NUMERIC = 1;
-
     /**
-     * @var GeneratorInterface
+     * @var GeneratorInterface|null
      */
-    private $generator;
+    private GeneratorInterface|null $generator;
 
     /**
      * @var int
      */
-    private $stringLength = 0;
+    private int $stringLength = 0;
 
     /**
      * @var array
      */
-    private $format = [];
+    private array $format = [];
 
     /**
      * @var int
      */
-    private $base = 10;
+    private int $base = 10;
 
     /**
-     * @var
+     * @var array
      */
-    private $numberArray = [];
+    private array $numberArray = [];
 
     /**
      * @var int
      */
-    private $luhnValue = 0;
+    private int $luhnValue = 0;
+
+    public function __construct(GeneratorInterface $generator = null)
+    {
+        $this->generator = $generator;
+    }
 
     /**
      * Defines the template of the luhn to be generated.
      *
-     * @param $template
+     * @param string $template
      * @return Luhn
      * @throws LuhnException
      */
-    public function setTemplate($template): Luhn
+    public function setTemplate(string $template): Luhn
     {
         $this->stringLength = mb_strlen(preg_replace("/[^#]/", '', $template));
 
@@ -79,29 +79,6 @@ class Luhn
     }
 
     /**
-     * Sets the type of luhn to be generated.
-     *
-     * @param int $type
-     * @return Luhn
-     * @throws LuhnException
-     */
-    public function setPostfixType(int $type): Luhn
-    {
-        switch ($type) {
-            case self::NUMERIC:
-                $this->generator = new SimpleNum();
-                break;
-            case self::ALPHA_NUMERIC:
-                $this->generator = new SimpleAlnum();
-                break;
-            default:
-                throw new LuhnException('Unknown adapter');
-        }
-
-        return $this;
-    }
-
-    /**
      * Generates and returns a luhn.
      *
      * @return string
@@ -109,35 +86,16 @@ class Luhn
      */
     public function generate(): string
     {
-        if ($this->stringLength < 2 || empty($this->format)) {
-            throw new LuhnException('Template not set');
-        }
-
-        if (!($this->generator instanceof GeneratorInterface)) {
-            throw new LuhnException('Generator not set');
-        }
+        $this->generatorValidation();
 
         $this->generator->setLength($this->stringLength);
         $this->generator->generate();
 
-        $token = $this->generator->getToken();
+        $token = $this->buildToken();
 
-        $i = 0;
-        $result = '';
-        foreach ($this->format as $chr) {
-            if ($chr !== '#') {
-                $result .= $chr;
-                continue;
-            }
+        $token .= $this->setNumberArray($this->numberArray($token))->getChecksum();
 
-            $result .= $token[$i];
-            $i++;
-        }
-
-        $string = $this->numberArray($result);
-        $result .= $this->setNumberArray($string)->getChecksum();
-
-        return $result;
+        return $token;
     }
 
     /**
@@ -150,6 +108,49 @@ class Luhn
     {
         $string = $this->numberArray($token);
         return $this->setNumberArray($string)->isValid();
+    }
+
+    /**
+     * @throws LuhnException
+     */
+    public function generatorValidation(): void
+    {
+        if ($this->stringLength < 2 || empty($this->format)) {
+            throw new LuhnException('Template not set');
+        }
+
+        if (!($this->generator instanceof GeneratorInterface)) {
+            throw new LuhnException('Generator not set');
+        }
+    }
+
+    private function buildToken(): string
+    {
+        $this->generator->setLength($this->stringLength);
+        $this->generator->generate();
+
+        $token = $this->generator->getToken();
+
+        $i = 0;
+        $result = '';
+
+        $tokenCharCount = substr_count(implode('', $this->format), '#')-1;
+
+        foreach ($this->format as $chr) {
+            if ($chr !== '#') {
+                $result .= $chr;
+                continue;
+            }
+
+            if ($i == $tokenCharCount) {
+                break;
+            }
+
+            $result .= $token[$i];
+            $i++;
+        }
+
+        return $result;
     }
 
     /**
@@ -167,7 +168,7 @@ class Luhn
     }
 
     /**
-     * @param $numberArray
+     * @param array $numberArray
      * @return Luhn
      */
     private function setNumberArray(array $numberArray): Luhn

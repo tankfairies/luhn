@@ -19,12 +19,12 @@ abstract class AbstractGenerator implements GeneratorInterface
     /**
      * @var string
      */
-    protected $token = '';
+    protected string $token = '';
 
     /**
      * @var int
      */
-    protected $charLength = 5;
+    protected int $charLength;
 
     /**
      * Sets the number of characters to be generated.
@@ -33,7 +33,7 @@ abstract class AbstractGenerator implements GeneratorInterface
      */
     public function setLength(int $length): void
     {
-        $this->charLength = $length;
+        $this->charLength = $length-1;
     }
 
     /**

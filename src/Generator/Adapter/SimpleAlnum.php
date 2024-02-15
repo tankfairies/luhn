@@ -19,26 +19,32 @@ use Tankfairies\Luhn\Generator\AbstractGenerator;
 class SimpleAlnum extends AbstractGenerator
 {
     /**
-     * @var null
+     * @var array
      */
-    private $pattern = null;
+    private array $pattern;
 
     /**
      * @var array
      */
-    private $charCode = [0 => 'L', 1 => 'N'];
+    private array $charCode = [
+        0 => 'L',
+        1 => 'N'
+    ];
 
     /**
      * @var int
      */
-    private $charCount = 2;
+    private int $charCount = 2;
 
     /**
      * ignored the following letters i,l,o,s
      *
      * @var array
      */
-    private $validLetters = ['a','b','c','d','e','f','g','h','j','k','m','n','p','q','r','t','u','v','w','x','y','z'];
+    private array $validLetters = [
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm',
+        'n', 'p', 'q', 'r', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    ];
 
     /**
      * Generates alpha numeric token.

@@ -1,194 +1,210 @@
 <?php
 
-namespace Tests;
+namespace Tests\unit;
 
-use \Codeception\Test\Unit;
+use Codeception\Test\Unit;
+use Tankfairies\Luhn\Generator\Adapter\SimpleAlnum;
+use Tankfairies\Luhn\Generator\Adapter\SimpleNum;
 use Tankfairies\Luhn\Generator\GeneratorInterface;
 use Tankfairies\Luhn\Libs\LuhnException;
 use Tankfairies\Luhn\Luhn;
 use ReflectionProperty;
-use \Codeception\Util\Debug;
+use UnitTester;
+use Exception;
 
 class LuhnTest extends Unit
 {
-    protected $luhn;
+    /**
+     * @var UnitTester
+     */
+    protected UnitTester $tester;
 
     /**
-     * @var \UnitTester
+     * @throws LuhnException
+     * @throws Exception
      */
-    protected $tester;
-    
-    protected function _before()
-    {
-        $this->luhn = new Luhn();
-    }
-
-    protected function _after()
-    {
-        $this->luhn = null;
-    }
-
-    public function testNumericConst()
-    {
-        $this->assertEquals(1, Luhn::NUMERIC);
-    }
-
-    public function testAlnumConst()
-    {
-        $this->assertEquals(0, Luhn::ALPHA_NUMERIC);
-    }
-
     public function testSetTemplateAlnumChars()
     {
-        $this->luhn->setTemplate('AA-####');
+        $simpleAlnum = $this->make(
+            SimpleAlnum::class,
+            [
+                'setLength' => $this->make(SimpleAlnum::class),
+                'getToken' => 'EA12',
+                'generate' => null,
+            ]
+        );
+
+        $luhn = new Luhn($simpleAlnum);
+        $luhn->setTemplate('AA-####');
 
         $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'stringLength');
-        $reflection->setAccessible(true);
-        $this->assertEquals(4, $reflection->getValue($this->luhn));
+        $this->assertEquals(4, $reflection->getValue($luhn));
 
         $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'format');
-        $reflection->setAccessible(true);
-        $this->assertEquals(['A', 'A', '-', '#', '#', '#', '#' ], $reflection->getValue($this->luhn));
+        $this->assertEquals(['A', 'A', '-', '#', '#', '#', '#' ], $reflection->getValue($luhn));
     }
 
+    /**
+     * @throws LuhnException
+     * @throws Exception
+     */
     public function testSetTemplateNumericChars()
     {
-        $this->luhn->setTemplate('LL-####');
+        $simpleAlnum = $this->make(
+            SimpleAlnum::class,
+            [
+                'setLength' => $this->make(SimpleAlnum::class),
+                'getToken' => 'EA12',
+                'generate' => null,
+            ]
+        );
+
+        $luhn = new Luhn($simpleAlnum);
+        $luhn->setTemplate('LL-####');
 
         $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'stringLength');
-        $reflection->setAccessible(true);
-        $this->assertEquals(4, $reflection->getValue($this->luhn));
+        $this->assertEquals(4, $reflection->getValue($luhn));
 
         $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'format');
-        $reflection->setAccessible(true);
-        $this->assertEquals(['L', 'L', '-', '#', '#', '#', '#'], $reflection->getValue($this->luhn));
+        $this->assertEquals(['L', 'L', '-', '#', '#', '#', '#'], $reflection->getValue($luhn));
     }
 
+    /**
+     * @throws LuhnException
+     * @throws Exception
+     */
     public function testSetTemplateNonAlnumChars()
     {
-        $this->luhn->setTemplate('LLL-###');
+        $simpleAlnum = $this->make(
+            SimpleAlnum::class,
+            [
+                'setLength' => $this->make(SimpleAlnum::class),
+                'getToken' => 'EA1',
+                'generate' => null,
+            ]
+        );
+
+        $luhn = new Luhn($simpleAlnum);
+        $luhn->setTemplate('LLL-###');
 
         $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'stringLength');
-        $reflection->setAccessible(true);
-        $this->assertEquals(3, $reflection->getValue($this->luhn));
+        $this->assertEquals(3, $reflection->getValue($luhn));
 
         $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'format');
-        $reflection->setAccessible(true);
-        $this->assertEquals(['L', 'L', 'L', '-', '#', '#', '#', ], $reflection->getValue($this->luhn));
+        $this->assertEquals(['L', 'L', 'L', '-', '#', '#', '#', ], $reflection->getValue($luhn));
     }
 
+    /**
+     * @throws Exception
+     */
     public function testSetTemplateSingleChar()
     {
-        $this->tester->expectException(
+        $simpleAlnum = $this->make(SimpleAlnum::class);
+        $luhn = new Luhn($simpleAlnum);
+        $this->tester->expectThrowable(
             new LuhnException('Template must contain at least 2 # substitutes.'),
-            function () {
-                $this->luhn->setTemplate('#');
+            function () use ($luhn) {
+                $luhn->setTemplate('#');
             }
         );
     }
 
+    /**
+     * @throws LuhnException
+     * @throws Exception
+     */
     public function testSetPostfixTypeNumeric()
     {
-        $this->luhn->setTemplate('N#-####');
+        $simpleNum = $this->make(
+            SimpleNum::class,
+            [
+                'setLength' => $this->make(SimpleNum::class),
+                'getToken' => '12345',
+                'generate' => null,
+            ]
+        );
 
-        $this->luhn->setPostfixType(Luhn::NUMERIC);
+        $luhn = new Luhn($simpleNum);
+        $luhn->setTemplate('N#-####');
 
         $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'generator');
-        $reflection->setAccessible(true);
-        $this->assertInstanceOf(GeneratorInterface::class, $reflection->getValue($this->luhn));
+        $this->assertInstanceOf(GeneratorInterface::class, $reflection->getValue($luhn));
     }
 
+    /**
+     * @throws LuhnException
+     * @throws Exception
+     */
     public function testSetPostfixTypeAplhaNumeric()
     {
-        $this->luhn->setTemplate('L##-###');
-
-        $this->luhn->setPostfixType(Luhn::ALPHA_NUMERIC);
+        $simpleAlnum = $this->make(
+            SimpleAlnum::class,
+            [
+                'setLength' => $this->make(SimpleAlnum::class),
+                'getToken' => 'EA1D3',
+                'generate' => null,
+            ]
+        );
+        $luhn = new Luhn($simpleAlnum);
+        $luhn->setTemplate('L##-###');
 
         $reflection = new ReflectionProperty('Tankfairies\Luhn\Luhn', 'generator');
-        $reflection->setAccessible(true);
-        $this->assertInstanceOf(GeneratorInterface::class, $reflection->getValue($this->luhn));
+        $this->assertInstanceOf(GeneratorInterface::class, $reflection->getValue($luhn));
     }
 
-    public function testSetPostfixTypeInvalid()
-    {
-        $this->tester->expectException(
-            new LuhnException('Unknown adapter'),
-            function () {
-                $this->luhn->setPostfixType(3);
-            }
-        );
-    }
-
-    public function testSetPostfixTypeInvalid2()
-    {
-        $this->tester->expectException(
-            \TypeError::class,
-            function () {
-                $this->luhn->setPostfixType('fail');
-            }
-        );
-    }
-
+    /**
+     * @throws Exception
+     */
     public function testGenerateWithoutTemplate()
     {
-        $this->tester->expectException(
+        $simpleAlnum = $this->make(
+            SimpleAlnum::class,
+            [
+                'setLength' => $this->make(SimpleAlnum::class),
+                'getToken' => 'EA1',
+                'generate' => null,
+            ]
+        );
+        $luhn = new Luhn($simpleAlnum);
+        $this->tester->expectThrowable(
             new LuhnException('Template not set'),
-            function () {
-                $this->luhn->setPostfixType(Luhn::NUMERIC);
-                $this->luhn->generate();
+            function () use ($luhn) {
+                $luhn->generate();
             }
         );
     }
 
-    public function testGenerateWithoutPostfixType()
+    public function testGenerateWithoutType()
     {
-        $this->tester->expectException(
+        $this->tester->expectThrowable(
             new LuhnException('Generator not set'),
             function () {
-                $this->luhn->setTemplate('USR-####-####');
-                $this->luhn->generate();
+                $luhn = new Luhn();
+                $luhn->setTemplate('USR-####-####');
+                $luhn->generate();
             }
         );
     }
 
+    /**
+     * @throws LuhnException
+     * @throws Exception
+     */
     public function testGenerateNumeric()
     {
-        $this->luhn->setTemplate('USR-####-####');
-        $this->luhn->setPostfixType(Luhn::NUMERIC);
+        $simpleNum = $this->make(
+            SimpleNum::class,
+            [
+                'setLength' => $this->make(SimpleNum::class),
+                'getToken' => '12345678',
+                'generate' => null,
+            ]
+        );
 
-        $token = $this->luhn->generate();
-        //add -d to show
-        Debug::debug($token);
+        $luhn = new Luhn($simpleNum);
+        $luhn->setTemplate('USR-####-####');
 
-        $parts = explode('-', $token);
-
-        $this->assertEquals('USR', $parts[0]);
-        $this->assertEquals(4, mb_strlen($parts[1]));
-        $this->assertEquals(5, mb_strlen($parts[2]));
-    }
-
-    public function testGenerateAlphaNumeric()
-    {
-        $this->luhn->setTemplate('USR-####-####');
-        $this->luhn->setPostfixType(Luhn::ALPHA_NUMERIC);
-
-        $token = $this->luhn->generate();
-        Debug::debug($token);
-
-        $parts = explode('-', $token);
-
-        $this->assertEquals('USR', $parts[0]);
-        $this->assertEquals(4, mb_strlen($parts[1]));
-        $this->assertEquals(5, mb_strlen($parts[2]));
-    }
-
-    public function testGenerateAlphaNumeric2()
-    {
-        $this->luhn->setTemplate('USR-####-###');
-        $this->luhn->setPostfixType(Luhn::ALPHA_NUMERIC);
-
-        $token = $this->luhn->generate();
-        Debug::debug($token);
+        $token = $luhn->generate();
 
         $parts = explode('-', $token);
 
@@ -197,9 +213,64 @@ class LuhnTest extends Unit
         $this->assertEquals(4, mb_strlen($parts[2]));
     }
 
+    /**
+     * @throws LuhnException
+     * @throws Exception
+     */
+    public function testGenerateAlphaNumeric()
+    {
+        $simpleAlnum = $this->make(
+            SimpleAlnum::class,
+            [
+                'setLength' => $this->make(SimpleAlnum::class),
+                'getToken' => 'EA1D1E45',
+                'generate' => null,
+            ]
+        );
+
+        $luhn = new Luhn($simpleAlnum);
+        $luhn->setTemplate('USR-####-####');
+
+        $token = $luhn->generate();
+
+        $parts = explode('-', $token);
+
+        $this->assertEquals('USR', $parts[0]);
+        $this->assertEquals(4, mb_strlen($parts[1]));
+        $this->assertEquals(4, mb_strlen($parts[2]));
+    }
+
+    /**
+     * @throws LuhnException
+     * @throws Exception
+     */
+    public function testGenerateAlphaNumeric2()
+    {
+        $simpleAlnum = $this->make(
+            SimpleAlnum::class,
+            [
+                'setLength' => $this->make(SimpleAlnum::class),
+                'getToken' => 'EA1D241',
+                'generate' => null,
+            ]
+        );
+
+        $luhn = new Luhn($simpleAlnum);
+        $luhn->setTemplate('USR-####-###');
+
+        $token = $luhn->generate();
+
+        $parts = explode('-', $token);
+
+        $this->assertEquals('USR', $parts[0]);
+        $this->assertEquals(4, mb_strlen($parts[1]));
+        $this->assertEquals(3, mb_strlen($parts[2]));
+    }
+
     public function testValidateValidNumericLuhn()
     {
-        $response = $this->luhn->validate('USR-6560-73597');
+        $luhn = new Luhn();
+        $response = $luhn->validate('USR-6560-73597');
 
         $this->assertTrue($response);
         // USR-6560-73597
@@ -208,14 +279,16 @@ class LuhnTest extends Unit
 
     public function testValidateValidAlphaNumericLuhn()
     {
-        $response = $this->luhn->validate('USR-f36x-x79n9');
+        $luhn = new Luhn();
+        $response = $luhn->validate('USR-f36x-x79n9');
 
         $this->assertTrue($response);
     }
 
     public function testValidateInvalidLuhn()
     {
-        $response = $this->luhn->validate('USR-111-1119');
+        $luhn = new Luhn();
+        $response = $luhn->validate('USR-111-1119');
 
         $this->assertFalse($response);
     }

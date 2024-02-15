@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\Libs;
+namespace Tests\unit\Libs;
 
 use \Codeception\Test\Unit;
 use Tankfairies\Luhn\Libs\LuhnException;
+use UnitTester;
 
 class LuhnExceptionTest extends Unit
 {
     /**
-     * @var \UnitTester
+     * @var UnitTester
      */
-    protected $tester;
+    protected UnitTester $tester;
     
     protected function _before()
     {
@@ -22,7 +23,7 @@ class LuhnExceptionTest extends Unit
 
     public function testException()
     {
-        $this->tester->expectException(
+        $this->tester->expectThrowable(
             new LuhnException('this is a test'),
             function () {
                 throw new LuhnException('this is a test');

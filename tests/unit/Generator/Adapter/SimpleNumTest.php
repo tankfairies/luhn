@@ -1,36 +1,26 @@
 <?php
 
-namespace Tests\Generator\Adapter;
+namespace Tests\unit\Generator\Adapter;
 
-use \Codeception\Test\Unit;
+use Codeception\Test\Unit;
 use Tankfairies\Luhn\Generator\Adapter\SimpleNum;
+use UnitTester;
 
 class SimpleNumTest extends Unit
 {
     /**
-     * @var \UnitTester
+     * @var UnitTester
      */
-    protected $tester;
-
-    protected $simpleNum;
-    
-    protected function _before()
-    {
-        $this->simpleNum = new SimpleNum();
-    }
-
-    protected function _after()
-    {
-        $this->simpleNum = null;
-    }
+    protected UnitTester $tester;
 
     public function testGenerate()
     {
-        $this->simpleNum->setLength(4);
+        $simpleNum = new SimpleNum();
+        $simpleNum->setLength(4);
 
-        $this->simpleNum->generate();
+        $simpleNum->generate();
 
-        $response = $this->simpleNum->getToken();
-        $this->assertEquals(4, mb_strlen($response));
+        $response = $simpleNum->getToken();
+        $this->assertEquals(3, mb_strlen($response));
     }
 }

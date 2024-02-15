@@ -1,36 +1,26 @@
 <?php
 
-namespace Tests\Generator\Adapter;
+namespace Tests\unit\Generator\Adapter;
 
-use \Codeception\Test\Unit;
+use Codeception\Test\Unit;
 use Tankfairies\Luhn\Generator\Adapter\SimpleAlnum;
+use UnitTester;
 
 class SimpleAlnumTest extends Unit
 {
     /**
-     * @var \UnitTester
+     * @var UnitTester
      */
-    protected $tester;
-
-    protected $simpleAlnum;
-    
-    protected function _before()
-    {
-        $this->simpleAlnum = new SimpleAlnum();
-    }
-
-    protected function _after()
-    {
-        $this->simpleAlnum = null;
-    }
+    protected UnitTester $tester;
 
     public function testGenerate()
     {
-        $this->simpleAlnum->setLength(4);
+        $simpleAlnum = new SimpleAlnum();
+        $simpleAlnum->setLength(4);
 
-        $this->simpleAlnum->generate();
+        $simpleAlnum->generate();
 
-        $response = $this->simpleAlnum->getToken();
-        $this->assertEquals(4, mb_strlen($response));
+        $response = $simpleAlnum->getToken();
+        $this->assertEquals(3, mb_strlen($response));
     }
 }

@@ -23,25 +23,23 @@ composer require tankfairies/luhn
 
 Instantiate a new instance of the library:
  
-Generate numeric Luhn e.g. *USR-6560-73597* : -
+Generate numeric Luhn e.g. *USR-7950-8874* : -
 ```php
 use Tankfairies\Luhn\Luhn;
 
-$luhn = new Luhn();
+$luhn = new Luhn(new SimpleNum());
 $luhn->setTemplate('USR-####-####');
-$luhn->setPostfixType(Luhn::NUMERIC);
 
 $token = $luhn->generate();
 ```
 
-Generate alpha numeric Luhn e.g. *USR-f36x-x79n9* : -
+Generate alpha numeric Luhn e.g. *USR-0tm6-e2h4* : -
 
 ```php
 use Tankfairies\Luhn\Luhn;
 
-$luhn = new Luhn();
+$luhn = new Luhn(new SimpleAlnum());
 $luhn->setTemplate('USR-####-####');
-$luhn->setPostfixType(Luhn::ALPHA_NUMERIC);
 
 $token = $luhn->generate();
 ```
